@@ -98,12 +98,12 @@ ActiveAdmin.register Project do
     end
 
     panel "Project Statistics" do
-      if project.stats.present?
+      if project.parsed_stats.any?
         attributes_table_for project do
-          row("Total Tasks") { project.stats['total_tasks'] || 0 }
-          row("Completed Tasks") { project.stats['completed_tasks'] || 0 }
-          row("Artifacts Count") { project.stats['artifacts_count'] || 0 }
-          row("Conversations Count") { project.stats['conversations_count'] || 0 }
+          row("Total Tasks") { project.parsed_stats['total_tasks'] || 0 }
+          row("Completed Tasks") { project.parsed_stats['completed_tasks'] || 0 }
+          row("Artifacts Count") { project.parsed_stats['artifacts_count'] || 0 }
+          row("Conversations Count") { project.parsed_stats['conversations_count'] || 0 }
         end
       else
         div "No statistics available"

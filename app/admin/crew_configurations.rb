@@ -65,8 +65,8 @@ ActiveAdmin.register CrewConfiguration do
     end
 
     panel "Agents" do
-      if crew_configuration.agents.present? && crew_configuration.agents.is_a?(Array)
-        table_for crew_configuration.agents do
+      if crew_configuration.parsed_agents.any?
+        table_for crew_configuration.parsed_agents do
           column "Role" do |agent|
             agent['role'] || agent[:role]
           end
@@ -87,8 +87,8 @@ ActiveAdmin.register CrewConfiguration do
     end
 
     panel "Configuration" do
-      if crew_configuration.configuration.present?
-        pre JSON.pretty_generate(crew_configuration.configuration)
+      if crew_configuration.parsed_configuration.any?
+        pre JSON.pretty_generate(crew_configuration.parsed_configuration)
       else
         div "No configuration data"
       end

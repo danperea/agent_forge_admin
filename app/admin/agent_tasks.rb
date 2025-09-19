@@ -96,7 +96,12 @@ ActiveAdmin.register AgentTask do
 
     panel "Input Data" do
       if agent_task.input_data.present?
-        pre JSON.pretty_generate(agent_task.input_data)
+        begin
+          parsed_data = JSON.parse(agent_task.input_data)
+          pre JSON.pretty_generate(parsed_data)
+        rescue JSON::ParserError
+          pre agent_task.input_data
+        end
       else
         div "No input data provided"
       end

@@ -12,11 +12,11 @@ class Project
   attribute :github_repo, :string
   attribute :confluence_space, :string
   attribute :jira_project, :string
-  attribute :tech_stack, :string, array: true, default: []
+  attribute :tech_stack, :string, default: "[]"
   attribute :progress_percentage, :integer
   attribute :created_at, :datetime
   attribute :updated_at, :datetime
-  attribute :stats, :object
+  attribute :stats, :string
 
   def self.all
     response = api_client.get_projects
@@ -67,8 +67,18 @@ class Project
     id.present?
   end
 
+  def parsed_tech_stack
+    return [] unless tech_stack.present?
+    JSON.parse(tech_stack) rescue []
+  end
+
   def tech_stack_display
-    tech_stack.join(', ') if tech_stack.present?
+    parsed_tech_stack.join(', ') if parsed_tech_stack.any?
+  end
+
+  def parsed_stats
+    return {} unless stats.present?
+    JSON.parse(stats) rescue {}
   end
 
   def agent_tasks

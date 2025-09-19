@@ -10,7 +10,7 @@ class AgentTask
   attribute :description, :string
   attribute :status, :string
   attribute :priority, :string
-  attribute :input_data, :object
+  attribute :input_data, :string
   attribute :output_data, :string
   attribute :assigned_at, :datetime
   attribute :completed_at, :datetime

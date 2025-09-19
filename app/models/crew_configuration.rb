@@ -7,9 +7,9 @@ class CrewConfiguration
   attribute :crew_type, :string
   attribute :name, :string
   attribute :description, :string
-  attribute :agents, :object, default: []
+  attribute :agents, :string, default: "[]"
   attribute :is_active, :boolean
-  attribute :configuration, :object
+  attribute :configuration, :string
   attribute :executions_count, :integer
   attribute :created_at, :datetime
   attribute :updated_at, :datetime
@@ -67,14 +67,24 @@ class CrewConfiguration
     is_active? ? '✅ Active' : '⏸️ Inactive'
   end
 
+  def parsed_agents
+    return [] unless agents.present?
+    JSON.parse(agents) rescue []
+  end
+
   def agents_count
-    agents.is_a?(Array) ? agents.length : 0
+    parsed_agents.length
   end
 
   def agents_summary
     return "No agents" if agents_count == 0
 
     "#{agents_count} agent#{'s' if agents_count != 1}"
+  end
+
+  def parsed_configuration
+    return {} unless configuration.present?
+    JSON.parse(configuration) rescue {}
   end
 
   def crew_executions
